@@ -1,0 +1,159 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    string user = "";
+    if (TempData["loginname"] != null && TempData["loginname"].ToString() != null)
+        user = TempData["loginname"].ToString();
+}
+@model AgentChatService.Models.MessageVM
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#ddlUser").val("Wait for few sec.Customer will be assigned soon...");
+        $("#txtMessage").val("Connecting...");
+
+        GetAgentList();
+        function GetAgentList() {
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("GetAgentList")",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+                    var ddlUser = $("#UserName");
+                    if (r[0].value == "Non Working hours.") {
+                        $("#txtInfo").html("<div class='alert alert-warning' role = 'alert' > Disconnected! Please login back to connect at office hours. </div>");
+                        ddlUser.append($("<option>" + r[0].text + "</option>" + r[0].value));
+                        $("#btnSend").hide();
+                    }
+                    else if (r[0].value == "No User Available. Try Refresh.") {
+                        $("#txtInfo").html("<div class='alert alert-success' role = 'alert' >" + r[0].value + " </div>");
+                        for (var i = 0; i < r.length; i++) {
+                            ddlUser.append($("<option>" + r[i].text + "</option>" + r[i].value));
+                        }
+                    }
+                    else {
+                        $("#txtInfo").html("<div class='alert alert-success' role = 'alert'> Connected!! Start chatting..</div>");
+                        for (var i = 0; i < r.length; i++) {
+                            ddlUser.append($("<option>" + r[i].text + "</option>" + r[i].value));
+                        }
+                    }
+                },
+                error: function (r) {
+                    alert("error");
+                }
+            });
+        }
+
+
+    });
+
+    function UpdateMessagebox() {
+        //var obj = { "ChatMessage": ch, "UserName": usr };
+        if ($('#ChatMessage').val() != "") {
+
+
+
+            var usr = $('#UserName').val();
+            var loginname = '@user.ToString()';
+            var ch = loginname + "^" + $('#ChatMessage').val();
+            var url = 'https://localhost:44342/Pushmessage/' + ch + '/' + usr;
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                url: url,
+                dataType: "json",
+                success: function (response) {
+                    $('#txtMessage').html($('#txtMessage').html() + "<div class='alert alert-success' role='alert'><b>" + loginname + "</b></br> : <b>" + $('#UserName').val() + "</b> " + $('#ChatMessage').val() + " </br>  </div>");
+                    $('#hdnmsg').val($('#txtMessage').val());
+                },
+                error: function (response) {
+                }
+            });
+        }
+        else {
+            $('#txtInfo').html("<div class='alert alert-danger' role='alert'><b> Required! </b></br> : <b> Message field is required. </br>  </div>");
+            $('#txtInfo').fadeOut(5000);
+        }
+    }
+</script>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="alert alert-light" style="background: aliceblue;"> Chat Support Dashboard</div>
+    </div>
+
+</div>
+<input type="hidden" name="hdnmsg" id="txtmsg" value="" />
+
+@*    <table cellpadding="0" cellspacing="0">
+        <tr>
+            <td>Message: </td>
+            <td>
+                <textarea  rows="7" cols="40" name="ChatMessage" id="ChatMessage"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label> Customer Assigned : </label>
+            </td>
+            <td>
+                <select id="UserName" name="UserName" class="form-control">
+                    <option value="User1">User1</option>
+                    <option value="User2">User2</option>
+                    <option value="User3">User3</option>
+                    <option value="User4">User4</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>*@
+
+
+
+<div class="row">
+
+    <div class="col-md-4">
+
+        <div class="form-group" style="margin-bottom: 0px;">
+            <label class="form-control">Message:</label>
+        </div>
+        <div class="form-group">
+            <textarea rows="7" cols="43" required name="ChatMessage" id="ChatMessage" class="form-control"></textarea>
+
+        </div>
+
+        <div class="form-group" style="margin-bottom: 0px;">
+            <label class="form-control">Assign Agent:</label>
+        </div>
+        <div class="form-group">
+            <select id="UserName" name="UserName" class="form-control">
+            </select>
+        </div>
+        <div class="form-group">
+            <input type="button" id="btnSend" value="Submit" onclick="UpdateMessagebox()" class="btn btn-primary m-1" />
+        </div>
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="form-group" style="width:400px;margin-bottom: 0px;">
+            <div class="btn btn btn-primary" style="width:100%; height:100%;margin-bottom: 0px">
+                <div value="Message" class="alert alert-info align-items-lg-start" style="margin: 0;"> Message Box</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="btn btn btn-secondary" style="overflow-y:scroll;width:400px;height:300px !important; text-align: left;">
+                <div id="txtMessage">
+                </div>
+            </div>
+        </div>
+        <div id="txtInfo" style="width: 114%;">
+        </div>
+
+    </div>
+</div>

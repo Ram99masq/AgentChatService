@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33516.290
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgentChatService", "AgentChatService\AgentChatService.csproj", "{0C4D5545-6FC2-403F-8924-A921465A7AE3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgentChatService.RabitMQ", "AgentChatService.RabitMQ\AgentChatService.RabitMQ.csproj", "{A2400F24-2E87-4043-B491-F0E0F7FA7555}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0C4D5545-6FC2-403F-8924-A921465A7AE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C4D5545-6FC2-403F-8924-A921465A7AE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C4D5545-6FC2-403F-8924-A921465A7AE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C4D5545-6FC2-403F-8924-A921465A7AE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2400F24-2E87-4043-B491-F0E0F7FA7555}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2400F24-2E87-4043-B491-F0E0F7FA7555}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2400F24-2E87-4043-B491-F0E0F7FA7555}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2400F24-2E87-4043-B491-F0E0F7FA7555}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {44F2FD60-CF86-427F-B305-C19C0409CA37}
+	EndGlobalSection
+EndGlobal
